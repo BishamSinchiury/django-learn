@@ -8,7 +8,7 @@
 
 ## 2. Template Folder Structure
 
-* By default, Django looks for templates inside a folder named `templates` in your app or project.
+* By default, Django looks for templates inside a folder named `templatesa` in your app or project.
 
 Example:
 
@@ -135,3 +135,84 @@ Example (`home.html`):
 * Use **filters** to format output.
 * Use **inheritance** and **include** to reuse code.
 * Load static files for styling and scripts.
+
+# Django Base Templates vs Template Inheritance
+
+## 1. Base Templates
+
+* A **base template** is a common HTML structure that serves as a foundation for other templates.
+* Typically contains elements shared across multiple pages like **header, footer, navigation bar, and CSS/JS links**.
+
+**Example (`base.html`):**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Site{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Site Header</h1>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>Site Footer</p>
+    </footer>
+</body>
+</html>
+```
+
+* **Key points:**
+
+  * `{% block title %}` and `{% block content %}` are **placeholders**.
+  * Other templates can **override these blocks** to insert page-specific content.
+* **Mental model:** Think of `base.html` as the **skeleton or blueprint** of your website.
+
+---
+
+## 2. Template Inheritance
+
+* **Template inheritance** allows child templates to **extend a base template**.
+* Child templates fill or override the blocks defined in the base template.
+* Promotes **code reusability**, **consistency**, and easier maintenance.
+
+**Example (`home.html`):**
+
+```html
+{% extends 'myapp/base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<h1>Welcome to Home Page!</h1>
+<p>This is dynamic content.</p>
+{% endblock %}
+```
+
+* **Explanation:**
+
+  * `{% extends 'base.html' %}` tells Django to use `base.html` as the foundation.
+  * `{% block title %}` and `{% block content %}` override the corresponding blocks in the base template.
+* **Mental model:** Inheritance is like **customizing a standard blueprint** for each room (page) while keeping the overall structure consistent.
+
+---
+
+## 3. Key Differences
+
+| Feature       | Base Template                                         | Template Inheritance                                                        |
+| ------------- | ----------------------------------------------------- | --------------------------------------------------------------------------- |
+| Purpose       | Provides a common structure for all pages             | Allows child templates to extend and customize base template                |
+| Content       | Contains shared HTML, CSS, JS, and block placeholders | Overrides or fills blocks from the base template with page-specific content |
+| Reusability   | Serves as a reusable skeleton                         | Enables reusing the base template without duplicating code                  |
+| Example Usage | `base.html`                                           | `home.html`, `about.html`, `contact.html` extending `base.html`             |
+
+**Mental model summary:**
+
+* **Base template = skeleton/house blueprint**
+* **Child template = customized room using the skeleton**
+* Template inheritance ensures **consistency across pages** while allowing **page-specific content**.
