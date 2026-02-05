@@ -1,22 +1,13 @@
 # Django Project vs App - Notes
 
-1. Django Project
+# 1. Django Project
 A project is the entire web application configuration.
 It’s essentially the container that holds all apps, settings, and configurations for your website.
 When you create a project using:
 django-admin startproject <project_name> .
 
-Django creates a folder structure like:
 
-<project_name>
-    manage.py
-    <project_name>
-        __init__.py
-        settings.py
-        urls.py
-        wsgi.py
-
-Django App
+# 2. Django App
 An app is a modular component of a project that performs a specific function.
 Think of an app as a smaller web application that can be reused in multiple projects.
 When you create an app using:
